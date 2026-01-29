@@ -43,3 +43,7 @@ You failed the QTE
 You did it!
 
 [[Return->Game Introduction]]
+
+
+:: StoryStylesheet [stylesheet]
+tw-sidebar {display: none;}
