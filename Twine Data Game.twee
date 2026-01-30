@@ -18,46 +18,92 @@ Twine Data Game
 }
 
 
+:: Fixed QTE Example [QTE] {"position":"600,50","size":"100,100"}
+{
+(set: $success to "QTE Success")
+(set: $fail to "QTE Fail")
+
+(set: $duration to 1.5 * 1000)
+(set: $correct to 3)
+
+(set: $Q1 to "Option 1")
+(set: $Q2 to "Option 2")
+(set: $Q3 to "Option 3")
+(set: $Q4 to "Option 4")
+}
+Choose Option $correct!
+
+(display: "Question Layout")
+
+
 :: Footer [footer] {"position":"100,300","size":"100,100"}
-(if: (passage:)'s tags contains "QTE")[
+{(if: (passage:)'s tags contains "QTE")[
     (set: $time to $duration)
-    Time remaining (live: 100)[$time]
-  (meter: 0, $time, $startTime, "Time")
-  DISPLAY BAR HERE
-  <div class="bar-container">
-    <div class="bar-fill" style="width: <<print ($health / $maxHealth * 100)>>%"></div>
-  </div>
-]
+    (live: 10)[(set: $time to $time - 10)(if: $time <= 0)[(goto: $fail)]]
+    (float-box: "=X=", "==Y")[(meter: bind $time, $duration, "X", white)]
+]}
 
 
-:: Game Introduction {"position":"350,300","size":"100,100"}
-[[Quick Time Events Tutorial->QTE Example]]
+:: Game Introduction {"position":"600,300","size":"100,100"}
+[[Random Quick Time Events Tutorial->Random QTE Example]]
+[[Fixed Quick Time Events Tutorial->Fixed QTE Example]]
 Start
 
 
-:: QTE Example [QTE] {"position":"350,150","size":"100,100"}
-(set: $duration to 3 * 1000)
+:: Header [header] {"position":"100,200","size":"100,100"}
+{(if: (passage:)'s tags contains "QTE")[
+    (set: $duration to 2 * 1000)
+    (set: $rand to (random: 1, 4))
+    (set: $correct to $rand)
+    (set: $Q1 to "1")
+    (set: $Q2 to "2")
+    (set: $Q3 to "3")
+    (set: $Q4 to "4")
+]}
 
-Choose Option 3!
 
-[[1->QTE Fail]]
-[[2->QTE Fail]]
-[[3->QTE Success]]
-[[4->QTE Fail]]
-
-(live: 100)[(set: $time to $time - 100)(if: $time <= 0)[(goto: "QTE Fail")]]
-
-
-:: QTE Fail {"position":"450,25","size":"100,100"}
+:: QTE Fail {"position":"500,100","size":"100,100"}
 You failed the QTE
 
 [[Return->Game Introduction]]
 
 
-:: QTE Success {"position":"250,25","size":"100,100"}
+:: QTE Success {"position":"700,100","size":"100,100"}
 You did it!
 
 [[Return->Game Introduction]]
+
+
+:: Question Layout {"position":"300,200","size":"100,100"}
+(link: $Q1) [(if: 1 is $correct)
+	[(go-to: $success)]
+(else:)
+	[(goto: $fail)]]
+
+(link: $Q2) [(if: 2 is $correct)
+	[(go-to: $success)]
+(else:)
+	[(goto: $fail)]]
+
+(link: $Q3) [(if: 3 is $correct)
+	[(go-to: $success)]
+(else:)
+	[(goto: $fail)]]
+
+(link: $Q4) [(if: 4 is $correct)
+	[(go-to: $success)]
+(else:)
+	[(goto: $fail)]]
+
+
+:: Random QTE Example [QTE] {"position":"600,150","size":"100,100"}
+{
+(set: $success to "QTE Success")
+(set: $fail to "QTE Fail")
+}
+Choose Option $correct!
+
+(display: "Question Layout")
 
 
 :: StoryStylesheet [stylesheet]
