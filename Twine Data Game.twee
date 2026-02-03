@@ -9,7 +9,7 @@ Twine Data Game
   "format-version": "3.3.9",
   "start": "Game Introduction",
   "tag-colors": {
-    "startup": "yellow",
+    "startup": "orange",
     "header": "blue",
     "QTE": "red",
     "footer": "purple"
@@ -47,7 +47,8 @@ Choose Option $correct!
 :: Game Introduction {"position":"600,300","size":"100,100"}
 [[Random Quick Time Events Tutorial->Random QTE Example]]
 [[Fixed Quick Time Events Tutorial->Fixed QTE Example]]
-Start
+
+You have done $QTEs QTEs, of which you've succeeded $QTESuccess and failed (print: $QTEs - $QTESuccess). A (print: $QTESuccess / $QTEs * 100)% success rate.
 
 
 :: Header [header] {"position":"100,200","size":"100,100"}
@@ -59,6 +60,7 @@ Start
     (set: $Q2 to "2")
     (set: $Q3 to "3")
     (set: $Q4 to "4")
+    (set: $QTEs to $QTEs + 1)
 ]}
 
 
@@ -76,22 +78,26 @@ You did it!
 
 :: Question Layout {"position":"300,200","size":"100,100"}
 (link: $Q1) [(if: 1 is $correct)
-	[(go-to: $success)]
+	[(set: $QTESuccess to $QTESuccess + 1)
+    (go-to: $success)]
 (else:)
 	[(goto: $fail)]]
 
 (link: $Q2) [(if: 2 is $correct)
-	[(go-to: $success)]
+	[(set: $QTESuccess to $QTESuccess + 1)
+    (go-to: $success)]
 (else:)
 	[(goto: $fail)]]
 
 (link: $Q3) [(if: 3 is $correct)
-	[(go-to: $success)]
+	[(set: $QTESuccess to $QTESuccess + 1)
+    (go-to: $success)]
 (else:)
 	[(goto: $fail)]]
 
 (link: $Q4) [(if: 4 is $correct)
-	[(go-to: $success)]
+	[(set: $QTESuccess to $QTESuccess + 1)
+    (go-to: $success)]
 (else:)
 	[(goto: $fail)]]
 
@@ -104,6 +110,13 @@ You did it!
 Choose Option $correct!
 
 (display: "Question Layout")
+
+
+:: Startup [startup] {"position":"100,100","size":"100,100"}
+{
+(set: $QTEs to 0)
+(set: $QTESuccess to 0)
+}
 
 
 :: StoryStylesheet [stylesheet]
