@@ -116,6 +116,9 @@ Choose Option $correct!
 {
 (set: $QTEs to 0)
 (set: $QTESuccess to 0)
+(set: $Character1Alive to true)
+(set: $Character2Alive to true)
+(set: $Character3Alive to true)
 }
 
 
