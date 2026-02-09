@@ -255,7 +255,7 @@ The group settles around the fire.
 [[Turn in for the night->Group Sleep]]
 
 
-:: Group Reaction [Ending] {"position":"450,3450","size":"100,100"}
+:: Group Reaction {"position":"450,3450","size":"100,100"}
 No one wants to say it out loud.
 
 The forest feels tighter now.
@@ -372,6 +372,11 @@ Something jumps into the road!
 
 Headlights catch a flash of fur—
 a deer.
+
+</style>
+<img
+src=file:///C:/Users/Said/Downloads/white-tailed-deer.png height="200px" width="auto">
+</div>
 
 What do you do?!
 
