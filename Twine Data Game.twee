@@ -12,7 +12,8 @@ Twine Data Game
     "startup": "orange",
     "header": "blue",
     "QTE": "red",
-    "footer": "purple"
+    "footer": "purple",
+    "Ending": "blue"
   },
   "zoom": 1
 }
@@ -225,6 +226,9 @@ Choose Option $correct!
     (set: $time to $duration)
     (live: 10)[(set: $time to $time - 10)(if: $time <= 0)[(goto: $fail)]]
     (float-box: "=X=", "==Y")[(meter: bind $time, $duration, "X", white)]
+]
+(if: (passage:)'s tags contains "Ending")[
+(print: "<script>window.sendDataToGoogle(" + (str: $QTEs) + ", " + (str: $QTESuccess) + ")</script>")
 ]}
 
 
@@ -486,6 +490,37 @@ Too close to camp.
 
 [[Go check it out->A Investigate]]
 
+
+:: StoryScript [script]
+// Paste your Google Web App URL here
+const googleSheetURL = "https://script.google.com/macros/s/AKfycbzw-nc1BSpvEyPdF_7iXbx7cGNhEgZMjUsslOVoJH_n6vdSCkFJcRIawf8PjkhFheXQow/exec";
+
+// Define a global function to send data
+window.sendDataToGoogle = function(QTEs, QTESuccess) {
+    
+    // Create the data object matching the variables in your Google Script
+    var dataToSend = {
+        game: "Until Dusk",
+        QTEs: QTEs,
+        QTESuccess: QTESuccess
+    };
+
+    fetch(googleSheetURL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(dataToSend)
+    })
+    .then(response => response.json()) // Parse the JSON reply from Google
+    .then(data => {
+        if (data.result === "success") {
+            console.log("SUCCESS: Data saved to sheet.");
+        } else {
+            console.error("GOOGLE ERROR: " + JSON.stringify(data)); 
+            // This will print the actual error from the Google Script
+        }
+    })
+    .catch(error => console.error("NETWORK ERROR:", error));
+};
 
 :: StoryStylesheet [stylesheet]
 tw-sidebar {display: none;} /* Hides sidebar which has undo button */
