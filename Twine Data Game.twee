@@ -255,7 +255,7 @@ The group settles around the fire.
 [[Turn in for the night->Group Sleep]]
 
 
-:: Group Reaction {"position":"450,3450","size":"100,100"}
+:: Group Reaction [Ending] {"position":"450,3450","size":"100,100"}
 No one wants to say it out loud.
 
 The forest feels tighter now.
@@ -356,7 +356,7 @@ The woods feel closer than before.
 [[Continue->Group Evening]]
 
 
-:: QTE Deer [QTE] {"position":"575,825","size":"100,100"}
+:: QTE Deer [Ending] {"position":"575,825","size":"100,100"}
 {
 (set: $success to "QTE Deer Success")
 (set: $fail to "QTE Deer Fail")
