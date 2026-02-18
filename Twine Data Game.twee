@@ -11,15 +11,24 @@ Twine Data Game
   "tag-colors": {
     "startup": "orange",
     "header": "blue",
-    "QTE": "red",
     "footer": "purple",
-    "Ending": "blue"
+    "Ending": "blue",
+    "QTE": "red",
+    "OldQTE": "green"
   },
   "zoom": 1
 }
 
 
-:: A Investigate {"position":"512.5,2575","size":"100,100"}
+:: A Investigate [QTE] {"position":"512.5,2575","size":"100,100"}
+{
+(set: $duration to 3 * 1000)
+(set: $questions to 2)
+
+(set: $Q1 to "Push the bushes aside")
+(set: $Q2 to "Grab a rock and throw it")
+(set: $Paths to (a: "A Push Bushes", "A Push Bushes", "A Throw Rock"))
+}
 You approach the bushes slowly.
 
 Something is moving inside.
@@ -27,8 +36,8 @@ Breathing.
 
 You can’t see clearly.
 
-[[Push the bushes aside->A Push Bushes]]
-[[Grab a rock and throw it->A Throw Rock]]
+
+(display: "Question Layout")
 
 
 :: A Push Bushes {"position":"450,2700","size":"100,100"}
@@ -203,40 +212,23 @@ No one speaks for a moment.
 [[Continue->Camp Setup]]
 
 
-:: Fixed QTE Example [QTE] {"position":"600,50","size":"100,100"}
-{
-(set: $success to "QTE Success")
-(set: $fail to "QTE Fail")
-
-(set: $duration to 1.5 * 1000)
-(set: $questions to 3)
-(set: $correct to (a: 2, 3))
-
-(set: $Q1 to "Option 1")
-(set: $Q2 to "Option 2")
-(set: $Q3 to "Option 3")
-}
-Choose Option $correct!
-
-(display: "Question Layout")
-
-
 :: Footer [footer] {"position":"100,300","size":"100,100"}
 {(if: (passage:)'s tags contains "QTE")[
     (set: $time to $duration)
-    (live: 10)[(set: $time to $time - 10)(if: $time <= 0)[(goto: $fail)]]
+    (live: 10)[(set: $time to $time - 10)(if: $time <= 0)[(goto: $Paths's 1st)]]
     (float-box: "=X=", "==Y")[(meter: bind $time, $duration, "X", white)]
 ]
 (if: (passage:)'s tags contains "Ending")[
-(print: "<script>window.sendDataToGoogle(" + (str: $QTEs) + ", " + (str: $QTESuccess) + ")</script>")
+<script>
+window.sendDataToGoogle(" + (str: $QTEs) + ", " + (str: $QTESuccess) + ")
+</script>
 ]}
 
 
 :: Game Introduction {"position":"600,300","size":"100,100"}
-[[Random Quick Time Events Tutorial->Random QTE Example]]
-[[Fixed Quick Time Events Tutorial->Fixed QTE Example]]
+[[Quick Time Events Tutorial->QTE Example]]
 
-You have done $QTEs QTEs, of which you've succeeded $QTESuccess and failed (print: $QTEs - $QTESuccess). A (print: $QTESuccess / $QTEs * 100)% success rate.
+You have done $QTEs QTEs,
 
 
 :: Group Evening {"position":"512.5,1825","size":"100,100"}
@@ -278,15 +270,13 @@ The forest doesn’t sleep.
 :: Header [header] {"position":"100,200","size":"100,100"}
 {(if: (passage:)'s tags contains "QTE")[
     (set: $duration to 2 * 1000)
-    (set: $rand to (random: 1, 4))
-    (set: $correct to (a: $rand))
     (set: $questions to 4)
     (set: $Q1 to "1")
     (set: $Q2 to "2")
     (set: $Q3 to "3")
     (set: $Q4 to "4")
     (set: $QTEs to $QTEs + 1)
-    (set: $Result to 0)
+    (set: $Result to 5)
 ]}
 
 
@@ -359,15 +349,12 @@ The woods feel closer than before.
 
 :: QTE Deer [QTE] {"position":"575,825","size":"100,100"}
 {
-(set: $success to "QTE Deer Success")
-(set: $fail to "QTE Deer Fail")
-
 (set: $duration to 1.5 * 1000)
 (set: $questions to 2)
-(set: $correct to (a: 1, 2))
 
 (set: $Q1 to "Brake hard!")
 (set: $Q2 to "Swerve!")
+(set: $Paths to (a: "QTE Deer Timeout", "QTE Deer Brake", "QTE Deer Swerve"))
 }
 Something jumps into the road!
 
@@ -384,30 +371,52 @@ What do you do?!
 (display: "Question Layout")
 
 
-:: QTE Deer Fail {"position":"650,950","size":"100,100"}
+:: QTE Deer Brake {"position":"450,950","size":"100,100"}
+The tires screech.
+
+You stop inches away from the deer as it saunters off the road.
+
+
+The forest swallows it whole.
+[[Keep driving->Driving AfterQTE]]
+
+
+:: QTE Deer Swerve {"position":"575,950","size":"100,100"}
+The deer begins moving as you swerve to the side.
+
+You miss the deer by inches while barreling down the road.
+
+
+The forest swallows it whole.
+[[Keep driving->Driving AfterQTE]]
+
+
+:: QTE Deer Timeout {"position":"700,950","size":"100,100"}
 At the last second, the deer turns its head—
 sees you coming—
 and bolts off the road barely getting clipped by the car.
 
+
 The forest swallows it whole.
 [[Keep driving->Driving AfterQTE]]
 
 
-:: QTE Deer Success {"position":"500,950","size":"100,100"}
+:: QTE Example [QTE] {"position":"600,100","size":"100,100"}
 {
-(if: $Result is 1)[
-The tires screech.
+(set: $success to "QTE Success")
+(set: $fail to "QTE Fail")
 
-You stop inches away from the deer as it saunters off the road.
-] (else-if: $Result is 2)[
-The deer begins moving as you swerve to the side.
+(set: $duration to 1.5 * 1000)
+(set: $questions to 3)
+(set: $Paths to (a: $fail, $fail, $success, $success))
 
-You miss the deer by inches while barreling down the road.
-]
+(set: $Q1 to "Option 1")
+(set: $Q2 to "Option 2")
+(set: $Q3 to "Option 3")
 }
+Choose Options 2 or 3!
 
-The forest swallows it whole.
-[[Keep driving->Driving AfterQTE]]
+(display: "Question Layout")
 
 
 :: QTE Fail {"position":"500,100","size":"100,100"}
@@ -423,43 +432,25 @@ You did it!
 
 
 :: Question Layout {"position":"300,200","size":"100,100"}
-(if: $questions >= 1)[(link: $Q1) [(if: $correct contains 1)
-	[(set: $QTESuccess to $QTESuccess + 1)
+(if: $questions >= 1)[(link: $Q1) [
+	(set: $QTESuccess to $QTESuccess + 1)
     (set: $Result to 1)
-    (go-to: $success)]
-(else:)
-	[(goto: $fail)]]]
+    (go-to: $Paths's 2nd)]]
 
-(if: $questions >= 2)[(link: $Q2) [(if: $correct contains 2)
-	[(set: $QTESuccess to $QTESuccess + 1)
+(if: $questions >= 2)[(link: $Q2) [
+	(set: $QTESuccess to $QTESuccess + 1)
     (set: $Result to 2)
-    (go-to: $success)]
-(else:)
-	[(goto: $fail)]]]
+    (go-to: $Paths's 3rd)]]
 
-(if: $questions >= 3)[(link: $Q3) [(if: $correct contains 3)
-	[(set: $QTESuccess to $QTESuccess + 1)
+(if: $questions >= 3)[(link: $Q3) [
+	(set: $QTESuccess to $QTESuccess + 1)
     (set: $Result to 3)
-    (go-to: $success)]
-(else:)
-	[(goto: $fail)]]]
+    (go-to: $Paths's 4th)]]
 
-(if: $questions >= 4)[(link: $Q4) [(if: $correct contains 4)
-	[(set: $QTESuccess to $QTESuccess + 1)
+(if: $questions >= 4)[(link: $Q4) [
+	(set: $QTESuccess to $QTESuccess + 1)
     (set: $Result to 4)
-    (go-to: $success)]
-(else:)
-	[(goto: $fail)]]]
-
-
-:: Random QTE Example [QTE] {"position":"600,150","size":"100,100"}
-{
-(set: $success to "QTE Success")
-(set: $fail to "QTE Fail")
-}
-Choose Option $correct!
-
-(display: "Question Layout")
+    (go-to: $Paths's 5th)]]
 
 
 :: Return to Camp {"position":"450,2950","size":"100,100"}
@@ -486,7 +477,6 @@ Welcome.
 :: Startup [startup] {"position":"100,100","size":"100,100"}
 {
 (set: $QTEs to 0)
-(set: $QTESuccess to 0)
 (set: $Character1Alive to true)
 (set: $Character2Alive to true)
 (set: $Character3Alive to true)
