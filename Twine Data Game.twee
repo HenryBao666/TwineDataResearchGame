@@ -19,7 +19,7 @@ Twine Data Game
 }
 
 
-:: A Investigate {"position":"512.5,2575","size":"100,100"}
+:: A Investigate {"position":"725,2200","size":"100,100"}
 You approach the bushes slowly.
 
 Something is moving inside.
@@ -31,7 +31,7 @@ You can’t see clearly.
 [[Grab a rock and throw it->A Throw Rock]]
 
 
-:: A Push Bushes {"position":"450,2700","size":"100,100"}
+:: A Push Bushes {"position":"675,2325","size":"100,100"}
 You shove the branches aside—
 
 Someone stumbles backward.
@@ -44,7 +44,7 @@ Just as startled as you are.
 [[Lower the branches->After Encounter]]
 
 
-:: A Throw Rock {"position":"575,2700","size":"100,100"}
+:: A Throw Rock {"position":"825,2425","size":"100,100"}
 (set: $CHitByRock to true)
 
 You throw the rock hard.
@@ -57,7 +57,7 @@ Someone collapses inside the bushes.
 [[Rush forward->After Encounter]]
 
 
-:: After Encounter {"position":"450,2825","size":"100,100"}
+:: After Encounter {"position":"675,2450","size":"100,100"}
 The others wake up quickly.
 
 Flashlights cut through the dark.
@@ -95,7 +95,7 @@ Everyone looks exhausted.
 [[Return to camp->POV A]]
 
 
-:: B Turns Around {"position":"450,3200","size":"100,100"}
+:: B Turns Around {"position":"675,2825","size":"100,100"}
 B turns slowly.
 
 Their eyes flick from face to face.
@@ -118,6 +118,162 @@ They glance back at the deer.
 “No idea how this happened,” B adds.
 
 [[Look at the deer more closely->Deer Details]]
+
+
+:: Brad Alone Death {"position":"350,4225","size":"100,100"}
+You freeze.
+
+The forest goes silent.
+
+Then something breathes behind you.
+
+ENDING: Alone Death
+
+
+
+:: Brad Alone Escape {"position":"225,4225","size":"100,100"}
+You run until your lungs burn.
+
+You find the car.
+Your hands shake so badly you can barely get the key in.
+
+The engine turns over.
+
+Once.
+
+Twice.
+
+Then it catches.
+
+You don't look back.
+
+ENDING: Alone Escape
+
+
+
+:: Brad Call Tyler {"position":"850,3700","size":"100,100"}
+(set: $TylerDanger to $TylerDanger + 1)
+
+“Tyler?”
+
+No response.
+
+Just wind.
+
+[[Back->Brad Hub]]
+
+
+
+:: Brad Confront Theory {"position":"1125,3325","size":"100,100"}
+You find Tyler near the edge of camp.
+
+You lower your voice.
+
+“This isn’t just an animal,” you say.
+
+Tyler nods slowly.
+
+“The wounds aren’t right.”
+
+A long silence.
+
+Brad looks toward Chad’s tent.
+
+“What if it’s him?”
+
+[[Accuse Chad immediately->Confront Chad Early]]
+[[Wait and watch him instead->Camp Hub]]
+
+
+
+:: Brad Follow {"position":"975,3700","size":"100,100"}
+(if: $TylerDanger >= 4)[
+  [[Run deeper into the woods->Return to Tyler Late]]
+]
+(else:)[
+  [[Run deeper into the woods->Return to Tyler On Time]]
+]
+
+
+
+:: Brad Hub {"position":"725,3325","size":"100,100"}
+(set: $TylerDanger to $TylerDanger + 1)
+
+The camp is quiet.
+
+What do you do?
+
+(if: $ClueCount >= 3)[
+  [[Talk to Tyler about Chad->Brad Confront Theory]]
+]
+
+[[Check the deer again->Check Deer (Brad)]]
+[[Look for the medkit->Brad Medkit]]
+[[Call for Tyler->Brad Call Tyler]]
+[[Follow their tracks->Brad Follow]]
+
+
+
+:: Brad Medkit {"position":"800,3450","size":"100,100"}
+(set: $TylerDanger to $TylerDanger + 1)
+
+You dig through the supplies.
+
+You find the medkit.
+
+[[Back->Brad Hub]]
+
+
+
+:: Brad Search 1 {"position":"250,3450","size":"100,100"}
+You move toward the treeline.
+
+The forest is thick.
+Sound doesn’t travel right.
+
+You call Tyler’s name once.
+
+No answer.
+
+[[Keep searching->Brad Search 2]]
+
+
+
+:: Brad Search 2 {"position":"250,3575","size":"100,100"}
+You spot a faint flashlight flicker deeper in the woods.
+
+It moves.
+
+Then stops.
+
+[[Run toward it->Return to Tyler Danger]]
+
+
+
+
+:: Brad Stay 1 {"position":"375,3450","size":"100,100"}
+You stay near the tents.
+
+The deer is still there.
+The blood is still too fresh.
+
+Your stomach tightens.
+
+[[After a moment… go look anyway->Brad Search 2]]
+
+
+
+:: Brad Wait {"position":"375,3575","size":"100,100"}
+You listen.
+
+Nothing.
+
+Then—
+
+A distant noise.
+
+[[Go after them->Brad Search 1]]
+
 
 
 :: C Enter Bush {"position":"512.5,2325","size":"100,100"}
@@ -146,6 +302,30 @@ Fresh.
 [[Look closer->C Enter Bush]]
 
 
+:: CUT to Brad {"position":"800,3275","size":"100,100"}
+You are Brad.
+
+Tyler and Chad are gone.
+
+The clearing feels wrong.
+
+[[What do you do?->Brad Hub]]
+
+
+
+:: Camp Hub {"position":"675,3200","size":"100,100"}
+(set: $ActionsTaken to $ActionsTaken + 1)
+
+The clearing is tense.
+Chad stands near the torn deer.
+
+Who do you focus on?
+
+[[Control Tyler->Tyler Hub]]
+[[Control Brad->Brad Hub]]
+
+
+
 :: Camp Setup {"position":"575,1200","size":"100,100"}
 Sunset.
 
@@ -155,7 +335,101 @@ Everyone is tired.
 [[Continue->POV B]]
 
 
-:: Deer Details {"position":"450,3325","size":"100,100"}
+:: Chad Back Off {"position":"625,3575","size":"100,100"}
+(set: $TrustChad to $TrustChad + 1)
+
+You nod.
+
+“Okay,” you say.
+
+Chad seems relieved you didn’t push.
+
+But he still avoids looking at the deer for long.
+
+[[Return->Camp Hub]]
+
+
+
+:: Chad Leads Tyler {"position":"500,3700","size":"100,100"}
+You follow Chad into the woods.
+
+The camp fades behind you.
+
+The flashlight beam sweeps the trees.
+
+Chad walks a little ahead.
+
+[[Continue->CUT to Brad]]
+
+
+
+:: Chad Press {"position":"500,3575","size":"100,100"}
+(set: $TrustChad to $TrustChad - 2)
+(set: $ChadTrap to true)
+
+Chad exhales.
+
+“Come with me,” he says. “I’ll show you where I found it.”
+
+He turns and starts walking.
+
+[[Follow him->Chad Leads Tyler]]
+
+
+
+:: Check Deer {"position":"675,3450","size":"100,100"}
+(set: $ActionsTaken to $ActionsTaken + 1)
+(set: $ClueCount to $ClueCount + 1)
+
+You crouch beside the deer.
+
+Up close, it’s worse.
+
+The tearing isn’t random.
+It’s concentrated — like something gripped it.
+
+You press your fingers into the wound.
+
+The flesh is still warm.
+
+Too warm.
+
+[[Look closer->Tyler Deer Closer]]
+[[Step back->Camp Hub]]
+
+
+
+:: Check Deer (Brad) {"position":"725,3700","size":"100,100"}
+(set: $TylerDanger to $TylerDanger + 1)
+
+The wounds look worse in the dark.
+
+Too deep.
+
+[[Back->Brad Hub]]
+
+
+
+:: Confront Chad Early {"position":"1125,3450","size":"100,100"}
+(set: $EarlyAccusation to true)
+
+You approach Chad together.
+
+He looks up slowly.
+
+“You think it’s me?” he asks.
+
+There’s no fear in his face.
+
+Only disappointment.
+
+The forest behind him shifts.
+
+[[Continue->Reveal Variant]]
+
+
+
+:: Deer Details {"position":"675,2950","size":"100,100"}
 The deer’s body is still warm.
 
 The wounds are wrong.
@@ -169,7 +443,7 @@ And close.
 [[Decide what to do next->Group Reaction]]
 
 
-:: Deer Discovery {"position":"450,3075","size":"100,100"}
+:: Deer Discovery {"position":"675,2700","size":"100,100"}
 As you step into the clearing, you stop.
 
 $CharacterBName is standing alone.
@@ -255,7 +529,7 @@ The group settles around the fire.
 [[Turn in for the night->Group Sleep]]
 
 
-:: Group Reaction [Ending] {"position":"450,3450","size":"100,100"}
+:: Group Reaction [Ending] {"position":"675,3075","size":"100,100"}
 No one wants to say it out loud.
 
 The forest feels tighter now.
@@ -264,7 +538,8 @@ Smaller.
 Staying doesn’t feel safe.
 But neither does moving in the dark.
 
-[[Talk it through->Next Decision]]
+[[What now?->Camp Hub]]
+
 
 
 :: Group Sleep {"position":"512.5,1950","size":"100,100"}
@@ -290,8 +565,11 @@ The forest doesn’t sleep.
 ]}
 
 
-:: Next Decision {"position":"450,3575","size":"100,100"}
-(goto-url:"https://docs.google.com/forms/d/e/1FAIpQLSftCTcrfnGxeGE3RddEssW_m88-GxHbDJ7ArPRFTCXwqhomVw/viewform?usp=publish-editor")
+:: Monster Reveal {"position":"50,4225","size":"100,100"}
+Chad steps out of the trees.
+
+His movements jerk unnaturally
+
 
 
 :: Night C Wake {"position":"512.5,2075","size":"100,100"}
@@ -416,6 +694,14 @@ You failed the QTE
 [[Return->Game Introduction]]
 
 
+:: QTE HERE {"position":"250,3825","size":"100,100"}
+(QTE placeholder)
+
+[[TEMP: succeed->Tyler QTE Success]]
+[[TEMP: fail->Tyler QTE Fail]]
+
+
+
 :: QTE Success {"position":"700,100","size":"100,100"}
 You did it!
 
@@ -462,7 +748,7 @@ Choose Option $correct!
 (display: "Question Layout")
 
 
-:: Return to Camp {"position":"450,2950","size":"100,100"}
+:: Return to Camp {"position":"675,2575","size":"100,100"}
 You move back toward the camp together.
 
 No one speaks.
@@ -472,10 +758,109 @@ The fire is barely embers now.
 [[Approach the clearing->Deer Discovery]]
 
 
+:: Return to Tyler Danger {"position":"250,3700","size":"100,100"}
+You are Tyler.
+
+The ground suddenly disappears beneath you.
+
+Something slams into your back.
+
+The flashlight spins into the leaves.
+
+[[QTE HERE]]
+
+
+
+:: Return to Tyler Late {"position":"600,3825","size":"100,100"}
+You are Tyler.
+
+You hit the ground hard.
+
+Before you can push yourself up—
+
+Chad pulls you to your feet.
+
+“Don’t,” he says quietly.
+
+[[Meet his eyes->Tyler Confrontation]]
+
+
+
+:: Return to Tyler On Time {"position":"500,3825","size":"100,100"}
+You are Tyler.
+
+You stumble forward.
+
+Chad grabs your arm.
+
+“Stop,” he says.
+
+His grip is tighter than it should be.
+
+[[Look at him->Tyler Confrontation]]
+
+
+
+:: Reunion With Brad {"position":"175,4100","size":"100,100"}
+You burst through the trees.
+
+Brad spins toward you.
+
+“Run,” you say.
+
+Behind you—
+
+Branches snap.
+
+Heavy. Fast.
+
+[[Run toward the car->Monster Reveal]]
+
+
+
+:: Reveal Variant {"position":"1125,3575","size":"100,100"}
+(if: $ClueCount >= 4)[
+  The trees explode with movement.
+
+  Something drops from above—
+
+  Not Chad.
+
+  Something else.
+
+  Chad screams.
+]
+(else:)[
+  Chad steps back.
+
+  “You’ve lost it,” he says.
+
+  He turns—
+
+  Too quickly.
+
+  His shadow stretches wrong.
+]
+
+
+
 :: Start {"position":"575,575","size":"100,100"}
 (set: $HasWater to false)
 (set: $CHitByRock to false)
 
+(set: $BradCondition to 0) 
+(set: $TrustChad to 0)
+(set: $ClueCount to 0)
+(set: $ActionsTaken to 0)
+
+(set: $ChadTrap to false)
+
+(set: $TylerDanger to 0)
+(set: $TylerRescuePossible to true)
+
+(set: $TylerAlive to true)
+(set: $BradAlive to true)
+(set: $ChadMonster to false)
 
 
 Welcome.
@@ -496,7 +881,125 @@ Welcome.
 }
 
 
-:: —>A Wake {"position":"512.5,2450","size":"100,100"}
+:: Talk Chad {"position":"550,3450","size":"100,100"}
+(set: $TrustChad to $TrustChad + 0) 
+(set: $ActionsTaken to $ActionsTaken + 1)
+
+(if: $CHitByRock is true)[
+  His eyes flick briefly to Brad’s injury.
+]
+
+Chad exhales slowly.
+
+“I didn’t kill it,” he says before you even ask.
+
+He gestures toward the deer.
+
+“I woke up to it thrashing. Right in front of my tent.
+It must’ve run straight into camp.”
+
+He swallows.
+
+“It was already torn up. I just… tried to move it away from the fire.”
+
+He looks at his hands.
+Still stained red.
+
+“I don’t know what happened to it.”
+
+[[Press him further->Chad Press]]
+[[Let it go for now->Chad Back Off]]
+[[Return->Camp Hub]]
+
+
+
+:: Tyler Confrontation {"position":"550,3950","size":"100,100"}
+Chad’s face is unreadable in the dark.
+
+“You shouldn’t have pressed me,” he says.
+
+His voice isn’t angry.
+
+It’s steady.
+
+Too steady.
+
+Something shifts behind him.
+
+[[QTE HERE]]
+
+
+
+:: Tyler Deer Closer {"position":"750,3575","size":"100,100"}
+(set: $ClueCount to $ClueCount + 1)
+
+You part the fur carefully.
+
+There are punctures beneath the tearing.
+Not hooves.
+Not antlers.
+
+Teeth.
+
+But not like any animal you know.
+
+You hear something shift in the trees.
+
+(if: $HasWater is false)[
+  Your throat feels dry.
+  The metallic smell makes it worse.
+]
+
+[[Stand up slowly->Camp Hub]]
+
+
+
+:: Tyler Hub {"position":"600,3325","size":"100,100"}
+You are (print: $CharacterAName).
+
+What do you do?
+
+[[Talk to Chad->Talk Chad]]
+[[Examine the deer->Check Deer]]
+[[Return->Camp Hub]]
+
+
+
+:: Tyler QTE Fail {"position":"300,3975","size":"100,100"}
+(set: $TylerAlive to false)
+
+You hit the ground hard.
+
+A shape moves over you.
+Too fast.
+
+The flashlight beam jerks violently—
+then drops into the leaves.
+
+There’s a sharp pain—
+
+then nothing.
+
+[[—>Brad After Tyler Death]]
+
+
+
+:: Tyler QTE Success {"position":"175,3975","size":"100,100"}
+(set: $TylerAlive to true)
+
+You wrench free and sprint.
+
+Branches tear at your arms.
+
+Behind you—movement.
+
+Fast.
+
+[[Run toward camp->Reunion With Brad]]
+
+
+
+:: —>A Wake {"position":"725,2075","size":"100,100"}
 You are $CharacterAName.
 
 A sudden noise snaps you awake.
@@ -505,6 +1008,21 @@ From the bushes.
 Too close to camp.
 
 [[Go check it out->A Investigate]]
+
+
+:: —>Brad After Tyler Death {"position":"300,4100","size":"100,100"}
+You are Brad.
+
+Somewhere in the woods,
+a sound cuts off abruptly.
+
+You run.
+
+The trees feel closer than before.
+
+[[Keep running->Brad Alone Escape]]
+[[Freeze and listen->Brad Alone Death]]
+
 
 
 :: StoryScript [script]
